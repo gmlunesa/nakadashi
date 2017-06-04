@@ -4,12 +4,17 @@
   "description": "a discord bot made with node.js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha --reporter spec"
   },
   "author": "Goldy Mariz Lunesa",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^11.1.0",
     "discord.js-commando": "^0.9.0"
+  },
+  "devDependencies": {
+    "chai": "^4.0.1",
+    "mocha": "^3.4.2",
+    "sinon": "^2.3.2"
   }
 }
