@@ -1,7 +1,7 @@
 import RollCommand from '../commands/random/roll';
 
-describe(RollCommand, () => {
+describe("RollCommand", () => {
     it('constructs properly', () => {
-        new RollCommand();
+        new RollCommand({});
     });
 });
