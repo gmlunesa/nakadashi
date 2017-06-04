@@ -4,12 +4,22 @@
   "description": "a discord bot made with node.js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --require babel-polyfill --compilers js:babel-core/register --reporter spec"
   },
   "author": "Goldy Mariz Lunesa",
   "license": "ISC",
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
     "discord.js": "^11.1.0",
     "discord.js-commando": "^0.9.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-preset-es2015-node5": "^1.2.0",
+    "babel-register": "^6.24.1",
+    "chai": "^4.0.1",
+    "mocha": "^3.4.2",
+    "sinon": "^2.3.2"
   }
 }
