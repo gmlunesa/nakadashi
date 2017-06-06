@@ -25,7 +25,7 @@ describe("RollCommand", () => {
       }
 
       var promise = rollCommand.run(message, {});
-      promise.then( (msg) => {
+      return promise.then( (msg) => {
         var result = msg;
         assert.equal(result,text);
       });
