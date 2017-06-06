@@ -4,21 +4,23 @@ var assert = require('chai').assert;
 describe("RollCommand", () => {
     var rollCommand = new RollCommand({});
 
+    var message = {
+      content: "",
+      author: {
+        username: ""
+      },
+      channel: {
+        send: function(){}
+      }
+    }
+
     it('run should be a function', () => {
       assert.typeOf(rollCommand.run, 'function');
     });
 
     it('should roll a number between 0 and 6 by default', () => {
       var text = "!roll";
-      var message = {
-        content: text,
-        author: {
-          username: ""
-        },
-        channel: {
-          send: function(){}
-        }
-      }
+      message.content = text;
 
       var promise = rollCommand.run(message, {});
       return promise.then( (roll) => {
@@ -30,15 +32,7 @@ describe("RollCommand", () => {
     it('should roll a number beween 0 and first argument', () => {
       var max =  10;
       var text = "!roll " + max;
-      var message = {
-        content: text,
-        author: {
-          username: ""
-        },
-        channel: {
-          send: function(){}
-        }
-      }
+      message.content = text;
 
       var promise = rollCommand.run(message, {});
       return promise.then( (roll) => {
@@ -49,15 +43,7 @@ describe("RollCommand", () => {
 
     it('should roll 0 when passed 0 as argument', () => {
       var text = "!roll 0";
-      var message = {
-        content: text,
-        author: {
-          username: ""
-        },
-        channel: {
-          send: function(){}
-        }
-      }
+      message.content = text;
 
       var promise = rollCommand.run(message, {});
       return promise.then( (roll) => {
@@ -68,15 +54,7 @@ describe("RollCommand", () => {
 
     it('should roll 0 when passed argument less than 0', () => {
       var text = "!roll -5";
-      var message = {
-        content: text,
-        author: {
-          username: ""
-        },
-        channel: {
-          send: function(){}
-        }
-      }
+      message.content = text;
 
       var promise = rollCommand.run(message, {});
       return promise.then( (roll) => {
@@ -87,15 +65,7 @@ describe("RollCommand", () => {
 
     it('should roll 0 when given non-number argument', () => {
       var text = "!roll string";
-      var message = {
-        content: text,
-        author: {
-          username: ""
-        },
-        channel: {
-          send: function(){}
-        }
-      }
+      message.content = text;
 
       var promise = rollCommand.run(message, {});
       return promise.then( (roll) => {
