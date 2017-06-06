@@ -51,4 +51,44 @@ describe("RollCommand", () => {
         assert.isAtMost(result,max);
       });
     });
+
+    it('should roll 0 when passed 0 as argument', () => {
+      var rollCommand = new RollCommand({});
+      var text = "!roll 0";
+      var message = {
+        content: text,
+        author: {
+          username: ""
+        },
+        channel: {
+          send: function(){}
+        }
+      }
+
+      var promise = rollCommand.run(message, {});
+      return promise.then( (roll) => {
+        var result = roll;
+        assert.equal(result,0);
+      });
+    });
+
+    it('should roll 0 when passed argument less than 0', () => {
+      var rollCommand = new RollCommand({});
+      var text = "!roll -5";
+      var message = {
+        content: text,
+        author: {
+          username: ""
+        },
+        channel: {
+          send: function(){}
+        }
+      }
+
+      var promise = rollCommand.run(message, {});
+      return promise.then( (roll) => {
+        var result = roll;
+        assert.equal(result,0);
+      });
+    });
 });

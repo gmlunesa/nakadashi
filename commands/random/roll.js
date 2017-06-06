@@ -20,7 +20,13 @@ class RollCommand extends commando.Command {
 			max = parseInt(splitMessage[1]);
 		}
 
-		var roll = Math.floor(Math.random() * max) + 1;
+		var roll;
+		if(max > 0){
+			roll = Math.floor(Math.random() * max) + 1;
+		}else{
+			roll = 0;
+		}
+
 		message.channel.send(":thinking: **" + message.author.username + "**" +  " you rolled a " + roll);
 		return roll;
 	}
