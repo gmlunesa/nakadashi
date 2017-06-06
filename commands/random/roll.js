@@ -25,7 +25,7 @@ class RollCommand extends commando.Command {
 
 		var roll = Math.floor(Math.random() * max) + 1;
 		message.channel.send(":thinking: **" + message.author.username + "**" +  " you rolled a " + roll);
-		
+		return message.content;
 	}
 }
 
