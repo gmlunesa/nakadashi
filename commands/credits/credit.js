@@ -11,11 +11,12 @@ class CreditCommand extends commando.Command{
     });
   }
 
-  async run(message, args){
+  async run(message, args, db){
     try{
       var msg = message.content;
       var user = message.author.username;
       var args = msg.split(" ");
+      if(db) database = db;
 
       switch(args[1]){
         case "add":

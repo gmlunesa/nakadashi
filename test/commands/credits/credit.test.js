@@ -1,15 +1,14 @@
 import CreditCommand from '../../../commands/credits/credit';
 const assert = require('chai').assert;
 const sinon = require('sinon');
-const database = require('../../../database/database');
 
 describe('CreditCommand', function(){
   var creditCommand = new CreditCommand({});
-  // var fakeDB = {
-  var addCreditsSpy = sinon.spy(database, 'addCredits');
-  var removeCreditsSpy = sinon.spy(database, 'removeCredits');
-
-  // }
+  var fakeDB = {
+    addCredits: function(){},
+    removeCredits: function(){},
+    getCredits: function(){}
+  }
   var fakeMsg = {
     content: "!credit",
     author: {
@@ -20,18 +19,18 @@ describe('CreditCommand', function(){
     }
   }
 
-  it('Should call getCredits when there are no arguments', function(){
-    var getCreditsSpy = sinon.spy(database, 'getCredits');
-    creditCommand.run(fakeMsg);
-    assert.equal(getCreditsSpy.callCount, 1);
+  it('Should call getCredits on self when there are no arguments', function(){
+    var getCreditsSpy = sinon.spy(fakeDB, 'getCredits');
+    creditCommand.run(fakeMsg,[],fakeDB);
     getCreditsSpy.restore();
+    assert.equal(getCreditsSpy.calledWithExactly("TestUser"), true);
   })
 
   it('Should call getCredits on another user with one user argument', function(){
-    var getCreditsSpy = sinon.spy(database, 'getCredits');
+    var getCreditsSpy = sinon.spy(fakeDB, 'getCredits');
     fakeMsg.content = "!credit AnotherUser";
     creditCommand.run(fakeMsg);
-    assert.equal(getCreditsSpy.calledWithExactly("AnotherUser"), true);
     getCreditsSpy.restore();
+    assert.equal(getCreditsSpy.calledWithExactly("AnotherUser"), true);
   });
 });
