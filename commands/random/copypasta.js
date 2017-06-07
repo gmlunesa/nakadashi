@@ -16,11 +16,6 @@ class CopypastaCommand extends commando.Command{
     this.loadPastas(function(data){
       this.copypastas = data;
     }.bind(this));
-    setInterval(function(){
-      this.loadPastas(function(data){
-        this.copypastas = data;
-      }.bind(this))
-    }.bind(this),3600000);
   }
 
   async run(message, args){
@@ -57,6 +52,12 @@ class CopypastaCommand extends commando.Command{
       });
 
     });
+
+    setTimeout(function(){
+      this.loadPastas(function(data){
+        this.copypastas = data;
+      }.bind(this))
+    }.bind(this),3600000);
   }
 
   createChain(min, max, input){
