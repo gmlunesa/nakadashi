@@ -1,4 +1,4 @@
-import RollCommand from '../commands/random/roll';
+import RollCommand from '../../../commands/random/roll';
 var assert = require('chai').assert;
 
 describe("RollCommand", () => {

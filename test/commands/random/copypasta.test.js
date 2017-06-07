@@ -1,7 +1,7 @@
 var assert = require('chai').assert;
 var sinon = require('sinon');
 var spy = sinon.spy();
-import CopypastaCommand from '../commands/random/copypasta';
+import CopypastaCommand from '../../../commands/random/copypasta';
 
 describe('CopypastaCommand', function(){
   var copypastaCommand = new CopypastaCommand({});

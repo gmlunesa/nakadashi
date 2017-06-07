@@ -4,7 +4,7 @@
   "description": "a discord bot made with node.js",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require babel-polyfill --compilers js:babel-core/register --reporter spec"
+    "test": "mocha --recursive --require babel-polyfill --compilers js:babel-core/register --reporter spec"
   },
   "author": "Goldy Mariz Lunesa",
   "license": "ISC",
