@@ -10,6 +10,7 @@ const config = require('./config.js');
 });*/
 
 bot.registry.registerGroup('random', 'Random');
+bot.registry.registerGroup('credits','Credits');
 bot.registry.registerDefaults();
 bot.registry.registerCommandsIn(__dirname + "/commands");
 
