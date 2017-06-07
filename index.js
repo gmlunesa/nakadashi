@@ -17,3 +17,7 @@ bot.registry.registerCommandsIn(__dirname + "/commands");
 bot.login(config.TOKEN);
 
 console.log('Bot successfully running');
+
+module.exports = {
+  client: bot
+}

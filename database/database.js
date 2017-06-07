@@ -1,17 +1,30 @@
 //var db = require('');
 
 var database = {
+
+  credits: {},
+
   addCredits: function(user, amount){
-    //console.log("Adding",amount, "credits to ", user);
+    if(this.credits[user]){
+      this.credits[user] = this.credits[user] + amount;
+    }else{
+      this.credits[user] = amount;
+    }
   },
 
   removeCredits: function(user, amount){
-    //console.log("Removing",amount, "credits from", user);
+    if(this.credits[user]){
+      this.credits[user] = this.credits[user] - amount;
+    }else{
+      this.credits[user] = amount;
+    }
+
+    if(this.credits[user] < 0) this.credits[user] = 0;
   },
 
   getCredits: function(user){
-    //console.log(user, "has x credits");
-    return "x";
+    if(!this.credits[user]) this.credits[user] = 0;
+    return this.credits[user];
   }
 }
 

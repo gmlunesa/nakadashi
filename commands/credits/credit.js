@@ -12,9 +12,12 @@ class CreditCommand extends commando.Command{
   }
 
   async run(message, args, db){
+
+    //TODO: Check if user is valid
+
     try{
       var msg = message.content;
-      var user = message.author.username;
+      var userID = message.member.user.id;
       var args = msg.split(" ");
       if(db) database = db;
 
@@ -22,11 +25,18 @@ class CreditCommand extends commando.Command{
         case "add":
           if(args[2]){
             var amount = args[2];
-            if(args[3]) user = args[3];
+            if(args[3]){
+              userID = args[3].substring(2,args[3].length-1);
+              username = args[3];
+            }else{
+              username = "<@" + userID + ">";
+            }
+
             if(amount > 0){
-              database.addCredits(user,amount);
-              message.channel.send('You have added ' + amount + ' credits to ' + user);
-              message.channel.send(user + " now has " + database.getCredits(user) + ' credits');
+              database.addCredits(userID,amount);
+              var credits = database.getCredits(userID);
+              message.channel.send('You have added ' + amount + ' credits to ' + username);
+              message.channel.send(username + " now has " + credits + ' credits');
             }else{
               message.channel.send("Amount must be larger than 0!");
             }
@@ -37,12 +47,18 @@ class CreditCommand extends commando.Command{
         case "remove":
           if(args[2]){
             var amount = args[2];
-            if(args[3]) user = args[3];
+            if(args[3]){
+              userID = args[3].substring(2,args[3].length-1);
+              username = args[3];
+            }else{
+              username = "<@" + userID + ">";
+            }
 
             if(amount > 0){
-              database.removeCredits(user,amount);
-              message.channel.send('You have removed ' + amount + ' credits from ' + user);
-              message.channel.send(user + " now has " + database.getCredits(user) + ' credits');
+              database.removeCredits(userID,amount);
+              var credits = database.getCredits(userID);
+              message.channel.send('You have removed ' + amount + ' credits from ' + username);
+              message.channel.send(username + " now has " + credits + ' credits');
             }else{
               message.channel.send("Amount must be larger than 0!");
             }
@@ -51,8 +67,15 @@ class CreditCommand extends commando.Command{
           }
           break;
         default:
-          if(args[1]) user = args[1];
-          message.channel.send(user + " has " + database.getCredits(user) + " credits.");
+          var username;
+          if(args[1]){
+            userID = args[1].substring(2,args[1].length-1);
+            username = args[1];
+          }else{
+            username = "<@" + userID + ">";
+          }
+          var credits = database.getCredits(userID);
+          message.channel.send(username + " has " + credits + " credits.");
       }
     }catch(err){
       console.log(err);
