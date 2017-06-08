@@ -6,17 +6,17 @@ var database = {
 
   addCredits: function(user, amount){
     if(this.credits[user]){
-      this.credits[user] = this.credits[user] + amount;
+      this.credits[user] = this.credits[user] + parseInt(amount);
     }else{
-      this.credits[user] = amount;
+      this.credits[user] = parseInt(amount);
     }
   },
 
   removeCredits: function(user, amount){
     if(this.credits[user]){
-      this.credits[user] = this.credits[user] - amount;
+      this.credits[user] = this.credits[user] - parseInt(amount);
     }else{
-      this.credits[user] = amount;
+      this.credits[user] = 0;
     }
 
     if(this.credits[user] < 0) this.credits[user] = 0;
