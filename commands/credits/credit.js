@@ -30,8 +30,10 @@ class CreditCommand extends commando.Command{
 
                   if(amount > 0){
                     message.channel.send('You have added ' + amount + ' credits to ' + username);
-                    database.addCredits(userID,amount).then(function(credits){
-                      message.channel.send(username + " now has " + credits + " credits");
+                    database.addCredits(userID,amount).then(function(){
+                      database.getCredits(userID).then(function(credits){
+                        message.channel.send(username + " now has " + credits + " credits");
+                      });
                     });
                   }else{
                     message.channel.send("Amount must be larger than 0!");
@@ -53,10 +55,16 @@ class CreditCommand extends commando.Command{
                   var username = "<@" + userID + ">";
 
                   if(amount > 0){
-                    message.channel.send('You have removed ' + amount + ' credits from ' + username);
-                    database.removeCredits(userID,amount).then(function(credits){
-                      message.channel.send(username + " now has " + credits + " credits");
+                    database.getCredits(userID).then(function(oldCredits){
+                      database.removeCredits(userID,amount).then(function(){
+                        database.getCredits(userID).then(function(newCredits){
+                          var diff = oldCredits - newCredits;
+                          message.channel.send('You have removed ' + diff + ' credits from ' + username);
+                          message.channel.send(username + " now has " + newCredits + " credits");
+                        });
+                      });
                     });
+
                   }else{
                     message.channel.send("Amount must be larger than 0!");
                   }
