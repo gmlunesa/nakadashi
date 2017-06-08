@@ -27,14 +27,18 @@ var database = {
           r.db('test').table('credits').get(user).update({
             id: user,
             credits: numCredits
-          }).run(database.connection, function(err, result){if(err)console.log(err)});
-          resolve(numCredits);
+          }).run(database.connection, function(err, result){
+            if(err)console.log(err);
+            resolve(numCredits);
+          });
         }else{
           r.db('test').table('credits').insert({
             id: user,
             credits: amount
-          }).run(database.connection, function(err, result){if(err)console.log(err)});
-          resolve(amount);
+          }).run(database.connection, function(err, result){
+            if(err)console.log(err);
+            resolve(amount);
+          });
         }
       });
     });
@@ -53,14 +57,18 @@ var database = {
           r.db('test').table('credits').get(user).update({
             id: user,
             credits: numCredits
-          }).run(database.connection, function(err, result){if(err)console.log(err)});
-          resolve(numCredits);
+          }).run(database.connection, function(err, result){
+            if(err)console.log(err);
+            resolve(numCredits);
+          });
         }else{
           r.db('test').table('credits').insert({
             id: user,
             credits: 0
-          }).run(database.connection, function(err, result){if(err)console.log(err)});
-          resolve(0);
+          }).run(database.connection, function(err, result){
+            if(err)console.log(err);
+            resolve(0);
+          });
         }
       });
     });
