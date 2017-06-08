@@ -28,9 +28,21 @@ describe('CreditCommand', function(){
 
   it('Should call getCredits on self when there are no arguments', function(){
     var fakeDB = {
-      addCredits: function(){},
-      removeCredits: function(){},
-      getCredits: function(){}
+      addCredits: function(){
+        return new Promise(function(resolve, reject){
+          resolve(":D");
+        })
+      },
+      removeCredits: function(){
+        return new Promise(function(resolve, reject){
+          resolve(":O");
+        })
+      },
+      getCredits: function(){
+        return new Promise(function(resolve, reject){
+          resolve(":)");
+        })
+      }
     }
     var getCreditsSpy = sinon.spy(fakeDB, 'getCredits');
     fakeMsg.content = "!credit"
@@ -46,10 +58,23 @@ describe('CreditCommand', function(){
 
   it('Should call getCredits on another user with one user argument', function(){
     var fakeDB = {
-      addCredits: function(){},
-      removeCredits: function(){},
-      getCredits: function(){}
+      addCredits: function(){
+        return new Promise(function(resolve, reject){
+          resolve(":D");
+        })
+      },
+      removeCredits: function(){
+        return new Promise(function(resolve, reject){
+          resolve(":O");
+        })
+      },
+      getCredits: function(){
+        return new Promise(function(resolve, reject){
+          resolve(":)");
+        })
+      }
     }
+    
     var getCreditsSpy = sinon.spy(fakeDB  , 'getCredits');
     fakeMsg.content = "!credit <@321>";
     var promise = creditCommand.run(fakeMsg,[],fakeDB);

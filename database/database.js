@@ -15,54 +15,56 @@ var database = {
           });
         }
       });
-
-      database.getCredits(123);
-
-
-
     });
   },
 
   addCredits: function(user, amount){
     amount = parseInt(amount);
-    r.db('test').table('credits').get(user).run(database.connection, function(err, result){
-      if(result){
-        var numCredits = result.credits;
-        r.db('test').table('credits').get(user).update({
-          id: user,
-          credits: (numCredits + amount)
-        }).run(database.connection, function(err, result){if(err)console.log(err)});
-      }else{
-        r.db('test').table('credits').insert({
-          id: user,
-          credits: amount
-        }).run(database.connection, function(err, result){if(err)console.log(err)});
-      }
+    return new Promise(function(resolve, reject){
+      r.db('test').table('credits').get(user).run(database.connection, function(err, result){
+        if(result){
+          var numCredits = result.credits + amount;
+          r.db('test').table('credits').get(user).update({
+            id: user,
+            credits: numCredits
+          }).run(database.connection, function(err, result){if(err)console.log(err)});
+          resolve(numCredits);
+        }else{
+          r.db('test').table('credits').insert({
+            id: user,
+            credits: amount
+          }).run(database.connection, function(err, result){if(err)console.log(err)});
+          resolve(amount);
+        }
+      });
     });
-
   },
 
   removeCredits: function(user, amount){
     amount = parseInt(amount);
-    r.db('test').table('credits').get(user).run(database.connection, function(err, result){
-      if(result){
-        var numCredits = result.credits;
-        if(numCredits - amount < 0){
-          numCredits = 0;
-          amount = 0;
-        }
+    return new Promise(function(resolve, reject){
+      r.db('test').table('credits').get(user).run(database.connection, function(err, result){
+        if(result){
+          var numCredits = result.credits - amount;
+          if(numCredits < 0){
+            numCredits = 0;
+          }
 
-        r.db('test').table('credits').get(user).update({
-          id: user,
-          credits: (numCredits + amount)
-        }).run(database.connection, function(err, result){if(err)console.log(err)});
-      }else{
-        r.db('test').table('credits').insert({
-          id: user,
-          credits: amount
-        }).run(database.connection, function(err, result){if(err)console.log(err)});
-      }
+          r.db('test').table('credits').get(user).update({
+            id: user,
+            credits: numCredits
+          }).run(database.connection, function(err, result){if(err)console.log(err)});
+          resolve(numCredits);
+        }else{
+          r.db('test').table('credits').insert({
+            id: user,
+            credits: 0
+          }).run(database.connection, function(err, result){if(err)console.log(err)});
+          resolve(0);
+        }
+      });
     });
+
   },
 
   getCredits: function(user){
@@ -70,21 +72,37 @@ var database = {
     return new Promise(function(resolve, reject){
       r.db('test').table('credits').get(user).run(database.connection, function(err, result){
         if(result){
-          console.log(result);
           resolve(result.credits);
         }else{
-          console.log("Inserting " + user + " into database");
           r.db('test').table('credits').insert({
             id: user,
             credits: 0
           }).run(database.connection, function(err, result){if(err)console.log(err)});
-          numCredits = 0;
           resolve(0);
         }
       });
     });
+  },
 
-
+  setCredits: function(user, credits){
+    credits = parseInt(credits);
+    return new Promise(function(resolve, reject){
+      r.db('test').table('credits').get(user).run(database.connection,function(err, result){
+        if(result){
+          r.db('test').table('credits').get(user).update({
+            id: user,
+            credits: credits
+          }).run(database.connection, function(err, result){if(err)console.log(err)});
+          resolve(credits);
+        }else{
+          r.db('test').table('credits').insert({
+            id: user,
+            credits: credits
+          }).run(database.connection, function(err, result){if(err)console.log(err)});
+          resolve(credits);
+        }
+      });
+    });
   }
 
 }
