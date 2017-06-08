@@ -35,8 +35,11 @@ describe('CreditCommand', function(){
     var getCreditsSpy = sinon.spy(fakeDB, 'getCredits');
     fakeMsg.content = "!credit"
     creditCommand.run(fakeMsg,[],fakeDB);
-    getCreditsSpy.restore();
-    assert.equal(getCreditsSpy.calledWithExactly(fakeMsg.member.user.id), true);
+    setTimeout(function(){
+      getCreditsSpy.restore();
+      assert.equal(getCreditsSpy.calledWithExactly(fakeMsg.member.user.id), true);
+    },1000);
+
   })
 
   it('Should call getCredits on another user with one user argument', function(){
@@ -48,7 +51,10 @@ describe('CreditCommand', function(){
     var getCreditsSpy = sinon.spy(fakeDB  , 'getCredits');
     fakeMsg.content = "!credit <@321>";
     creditCommand.run(fakeMsg,[],fakeDB);
-    getCreditsSpy.restore();
-    assert.equal(getCreditsSpy.calledWithExactly("321"), true);
+    setTimeout(function(){
+      getCreditsSpy.restore();
+      assert.equal(getCreditsSpy.calledWithExactly("321"), true);
+    }, 1000);
+    
   });
 });
