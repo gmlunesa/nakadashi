@@ -34,11 +34,13 @@ describe('CreditCommand', function(){
     }
     var getCreditsSpy = sinon.spy(fakeDB, 'getCredits');
     fakeMsg.content = "!credit"
-    creditCommand.run(fakeMsg,[],fakeDB);
-    setTimeout(function(){
+    var promise = creditCommand.run(fakeMsg,[],fakeDB);
+
+    return promise.then(function(){
       getCreditsSpy.restore();
       assert.equal(getCreditsSpy.calledWithExactly(fakeMsg.member.user.id), true);
-    },1000);
+    });
+
 
   })
 
@@ -50,11 +52,12 @@ describe('CreditCommand', function(){
     }
     var getCreditsSpy = sinon.spy(fakeDB  , 'getCredits');
     fakeMsg.content = "!credit <@321>";
-    creditCommand.run(fakeMsg,[],fakeDB);
-    setTimeout(function(){
+    var promise = creditCommand.run(fakeMsg,[],fakeDB);
+    return promise.then(function(){
       getCreditsSpy.restore();
       assert.equal(getCreditsSpy.calledWithExactly("321"), true);
-    }, 1000);
-    
+    });
+
+
   });
 });

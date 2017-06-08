@@ -25,9 +25,7 @@ class CreditCommand extends commando.Command{
           if(args[2]){
             var amount = args[2];
             if(args[3]) userID = args[3].substring(2,args[3].length-1);
-
-              this.isUserValid(userID, function(valid){
-                if(valid){
+            return this.isUserValid(userID).then(function(){
                   var username = "<@" + userID + ">";
 
                   if(amount > 0){
@@ -38,13 +36,9 @@ class CreditCommand extends commando.Command{
                   }else{
                     message.channel.send("Amount must be larger than 0!");
                   }
-
-                }else{
+                }, function(err){
                   message.channel.send("That is not a valid user!");
-                  return;
-                }
-
-              });
+                });
 
           }else{
             message.channel.send("You must include an amount!");
@@ -55,8 +49,7 @@ class CreditCommand extends commando.Command{
             var amount = args[2];
             if(args[3]) userID = args[3].substring(2,args[3].length-1);
 
-              this.isUserValid(userID, function(valid){
-                if(valid){
+              return this.isUserValid(userID).then(function(){
                   var username = "<@" + userID + ">";
 
                   if(amount > 0){
@@ -67,11 +60,8 @@ class CreditCommand extends commando.Command{
                   }else{
                     message.channel.send("Amount must be larger than 0!");
                   }
-
-                }else{
-                  message.channel.send("That is not a valid user!");
-                  return;
-                }
+              }, function(err){
+                message.channel.send("That is not a valid user!");
               });
 
           }else{
@@ -82,14 +72,12 @@ class CreditCommand extends commando.Command{
           if(args[1]) userID = args[1].substring(2,args[1].length-1);
 
 
-          this.isUserValid(userID, function(valid){
-            if(valid){
+          return this.isUserValid(userID).then(function(){
               var username = "<@" + userID + ">";
               var credits = database.getCredits(userID);
               message.channel.send(username + " has " + credits + " credits.");
-            }else{
-              message.channel.send("That is not a valid user!");
-            }
+          }, function(err){
+            message.channel.send("That is not a valid user!");
           });
           break;
 
@@ -99,12 +87,8 @@ class CreditCommand extends commando.Command{
     }
   }
 
-  isUserValid(userID, callback){
-    this.commandClient.fetchUser(userID).then(function(user){
-      callback(true);
-    }, function(err){
-      callback(false);
-    });
+  isUserValid(userID){
+    return this.commandClient.fetchUser(userID);
   }
 
 }
