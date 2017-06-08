@@ -1,6 +1,7 @@
 const commando = require('discord.js-commando');
 const bot = new commando.Client();
 const config = require('./config.js');
+const database = require('./database/database');
 
 /*bot.on('message', (message) => {
 	if (message.content == 'ping') {
@@ -15,6 +16,7 @@ bot.registry.registerDefaults();
 bot.registry.registerCommandsIn(__dirname + "/commands");
 
 bot.login(config.TOKEN);
+database.connect();
 
 console.log('Bot successfully running');
 

@@ -13,7 +13,8 @@
     "discord.js": "^11.1.0",
     "discord.js-commando": "^0.9.0",
     "markovchain": "^1.0.2",
-    "redwrap": "0.0.4"
+    "redwrap": "0.0.4",
+    "rethinkdb": "^2.3.3"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
