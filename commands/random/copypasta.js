@@ -8,10 +8,10 @@ class CopypastaCommand extends commando.Command{
       name: 'copypasta',
       group: 'random',
       memberName: 'copypasta',
-      description: 'Blend together copypastas from /r/copypasta into a work of art'
+      description: 'Finds a random copypasta from /r/copypasta'
     });
 
-    this.copypastas;
+    this.copypastas = [];
 
     this.loadPastas(function(data){
       this.copypastas = data;
@@ -19,34 +19,35 @@ class CopypastaCommand extends commando.Command{
   }
 
   async run(message, args){
-    var chain = this.createChain(500,1000, this.copypastas);
-    message.channel.send(chain);
+    // var chain = this.createChain(500,1000, this.copypastas);
+    var pasta = this.pickCopypasta(this.copypastas);
+    message.channel.send(pasta);
   }
 
   loadPastas(callback){
-    var input = "";
+    var arr = [];
     reddit.r('copypasta', function(err, data, res){
       for(var i = 0; i < data.data.children.length; i++){
         var child = data.data.children[i];
         var post = child.data.selftext;
-        input+=post;
+        arr.push(post);
       }
 
       reddit.r('copypasta').sort('hot', function(err, data, res){
         for(var i = 0; i < data.data.children.length; i++){
           var child = data.data.children[i];
           var post = child.data.selftext;
-          input+=post;
+          arr.push(post);
         }
 
         reddit.r('copypasta').sort('top', function(err, data, res){
           for(var i = 0; i < data.data.children.length; i++){
             var child = data.data.children[i];
             var post = child.data.selftext;
-            input+=post;
+            arr.push(post);
           }
 
-          callback(input);
+          callback(arr);
         });
 
       });
@@ -60,7 +61,7 @@ class CopypastaCommand extends commando.Command{
     }.bind(this),3600000);
   }
 
-  createChain(min, max, input){
+  /*createChain(min, max, input){  OUTDATED
     var tries = 0;
     var result = "";
     while(result.length < min && tries < 10){
@@ -73,6 +74,10 @@ class CopypastaCommand extends commando.Command{
     }
 
     return result;
+  }*/
+
+  pickCopypasta(posts){
+    return posts[Math.floor(random(posts.length))];
   }
 
 

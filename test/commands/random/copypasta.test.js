@@ -25,9 +25,15 @@ describe('CopypastaCommand', function(){
     });
   });
 
-  it('Markov chain copypasta is generated', function() {
-    var result = copypastaCommand.createChain(500,1000, "This is a random test paragraph. This is for testing the createChain function");
-    assert.isAtLeast(result.length, 1);
+  // it('Markov chain copypasta is generated', function() {
+  //   var result = copypastaCommand.createChain(500,1000, "This is a random test paragraph. This is for testing the createChain function");
+  //   assert.isAtLeast(result.length, 1);
+  // });
+
+  it('A copypasta is picked', function(){
+    var fakePastas = ["Test1", "Test2", "Test3"];
+    var result = copypastaCommand.pickCopypasta(fakePastas);
+    assert.equal(result.length, 5);
   });
 
   var clock;
