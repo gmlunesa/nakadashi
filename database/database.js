@@ -68,7 +68,6 @@ var database = {
   },
 
   getCredits: function(user){
-    console.log(user);
     return new Promise(function(resolve, reject){
       r.db('test').table('credits').get(user).run(database.connection, function(err, result){
         if(result){
