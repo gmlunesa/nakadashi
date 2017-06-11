@@ -23,6 +23,8 @@ class RedditCommand extends commando.Command{
           }else{
             message.channel.send("Post not found");
           }
+        }, function(err){
+          message.channel.send(err);
         });
       }else{
         message.channel.send("You must include a subreddit");
@@ -31,29 +33,39 @@ class RedditCommand extends commando.Command{
 
   }
 
-  loadPosts(subreddit, callback){
+  loadPosts(subreddit){
     var arr = [];
-    reddit.r(subreddit, function(err, data, res){
-      if(err) console.log(err);
-      if(!data.data.children) return;
-      for(var i = 0; i < data.data.children.length; i++){
-        var child = data.data.children[i];
-        var post = child.data.selftext;
-        arr.push(post);
-      }
-      callback(arr);
+    return new Promise(function(resolve, reject){
+      reddit.r(subreddit, function(err, data, res){
+        if(err) console.log(err);
+        if(!data.data.children || data.data.children.length == 0) reject("Does this subreddit exist?");
+        for(var i = 0; i < data.data.children.length; i++){
+          var child = data.data.children[i];
+          var post = child.data.selftext;
+          if(post){
+            arr.push("**" +child.data.title + "**\n" + post.substring(0,1800) + child.data.thumbnail);
+          }else{
+            arr.push("**" +child.data.title + "**\n" + child.data.thumbnail);
+          }
+        }
+
+        if(arr.length == 0) reject("No text posts found");
+        resolve(arr);
+      });
     });
   }
 
   findPost(subreddit){
     return new Promise(function(resolve, reject){
-      this.loadPosts(subreddit, function(posts){
+      this.loadPosts(subreddit).then(function(posts){
+        // console.log(posts.length);
         resolve(posts[Math.floor(random(posts.length))]);
-      }.bind(this));
+      }, function(err){
+        // console.log(err);
+        reject(err);
+      });
     }.bind(this));
-
   }
-
 
 }
 
