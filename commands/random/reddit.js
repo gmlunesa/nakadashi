@@ -42,11 +42,8 @@ class RedditCommand extends commando.Command{
         for(var i = 0; i < data.data.children.length; i++){
           var child = data.data.children[i];
           var post = child.data.selftext;
-          if(post){
-            arr.push("**" +child.data.title + "**\n" + post.substring(0,1800) + child.data.thumbnail);
-          }else{
-            arr.push("**" +child.data.title + "**\n" + child.data.thumbnail);
-          }
+          arr.push("**" +child.data.title + "**\n" + post.substring(0,1800) + "\n" + child.data.url + "\n");
+
         }
 
         if(arr.length == 0) reject("No text posts found");
