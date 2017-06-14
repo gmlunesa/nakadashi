@@ -18,11 +18,7 @@ class RedditCommand extends commando.Command{
       if(args.length >= 2){
         var subreddit = args[1];
         this.findPost(subreddit).then(function(pasta){
-          if(pasta){
-            message.channel.send(pasta);
-          }else{
-            message.channel.send("Post not found");
-          }
+          message.channel.send(pasta);
         }, function(err){
           message.channel.send(err);
         });
@@ -48,12 +44,7 @@ class RedditCommand extends commando.Command{
             arr.push("**" +child.data.title + "**\n" + post.substring(0,1800) + "\n" + child.data.url + "\n");
 
           }
-
-          if(arr.length == 0){
-            reject("No text posts found");
-          }else{
-            resolve(arr);
-          }
+          resolve(arr);
         }
       });
     });
@@ -62,10 +53,8 @@ class RedditCommand extends commando.Command{
   findPost(subreddit){
     return new Promise(function(resolve, reject){
       this.loadPosts(subreddit).then(function(posts){
-        // console.log(posts.length);
         resolve(posts[Math.floor(random(posts.length))]);
       }, function(err){
-        // console.log(err);
         reject(err);
       });
     }.bind(this));
